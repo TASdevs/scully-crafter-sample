@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { TransferStateService } from '@scullyio/ng-lib';
 import { Observable, map } from 'rxjs';
 import { PokemonQueryData } from './types';
-
 
 @Injectable({
   providedIn: 'root',
@@ -10,12 +10,12 @@ import { PokemonQueryData } from './types';
 export class CmsService {
   baseUrl: string = 'http://localhost:8080';
   cmsPokemon: Observable<PokemonQueryData>;
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private tss: TransferStateService) {
     this.cmsPokemon = this.getPokemonGraphql();
   }
 
   public getPokemonGraphql = (): Observable<PokemonQueryData> => {
-    const query = `
+    const pokemonQuery = `
     query MyQuery {
       component_pokemon {
         items {
@@ -34,10 +34,16 @@ export class CmsService {
       }
     }
     `;
-    return this.queryGraphql({ query: query });
+
+    return this.tss.useScullyTransferState(
+      'pokemon',
+      this.queryGraphql({ query: pokemonQuery })
+    );
+
+      
   };
 
-  public queryGraphql<T>(options: {
+  private queryGraphql<T>(options: {
     query: string;
     variables?: { [key: string]: any };
   }): Observable<T> {

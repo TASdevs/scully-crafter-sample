@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Observable, map } from 'rxjs';
-import { CmsService, PokemonQueryItem } from './cms.service';
+import { CmsService } from './cms.service';
+import { PokemonQueryItem } from './types';
 
 @Component({
   selector: 'app-root',
