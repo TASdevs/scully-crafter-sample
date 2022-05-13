@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { TransferStateService } from '@scullyio/ng-lib';
-import { Observable, map } from 'rxjs';
+import { Observable, map, catchError } from 'rxjs';
 import { PokemonQueryData } from './types';
 
 @Injectable({
@@ -39,8 +39,6 @@ export class CmsService {
       'pokemon',
       this.queryGraphql({ query: pokemonQuery })
     );
-
-      
   };
 
   private queryGraphql<T>(options: {
@@ -54,6 +52,12 @@ export class CmsService {
           query: options.query,
           variables: options.variables,
         }
+      )
+      .pipe(
+        catchError((err) => {
+          console.log(err);
+          throw new Error('failed to fetch from CMS');
+        })
       )
       .pipe(map((d) => d.data));
   }
