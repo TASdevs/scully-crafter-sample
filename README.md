@@ -1,5 +1,18 @@
 # Scullycrafter
 
+To us the development build, run with the standard commands below.
+To use the Scully build with cached CMS data at buildtime, run
+
+`ng build`
+
+`npm run scully`
+
+`npm run scully:serve`
+
+Navigate to `http://localhost:1668/`
+
+This requires the crafter CMS instance to be available
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.1.
 
 ## Development server
