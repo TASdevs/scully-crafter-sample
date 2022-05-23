@@ -1,9 +1,8 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { TransferStateService } from '@scullyio/ng-lib';
-import { log } from '@scullyio/scully';
-import { Observable, map, catchError } from 'rxjs';
-import { InvestmentQueryData } from './types';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {TransferStateService} from '@scullyio/ng-lib';
+import {catchError, map, Observable} from 'rxjs';
+import {InvestmentQueryData} from './types';
 
 @Injectable({
   providedIn: 'root',
@@ -29,20 +28,9 @@ export class CmsService {
 
     return this.tss.useScullyTransferState(
       'pokemon',
-      this.downloadImages(investmentQuery)
+      this.queryGraphql<InvestmentQueryData>({query: investmentQuery})
     );
   };
-
-  private downloadImages(query: string): Observable<InvestmentQueryData> {
-    const content = this.queryGraphql<InvestmentQueryData>({ query });
-    log("CMS SERVICE", content);
-    // scan content for image types
-    // save images in folder
-    // update content image type string
-    // return altered content and send to transferStateService
-
-    return content;
-  }
 
   private queryGraphql<T>(options: {
     query: string;
