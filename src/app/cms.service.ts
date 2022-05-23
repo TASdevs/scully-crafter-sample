@@ -1,45 +1,48 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { TransferStateService } from '@scullyio/ng-lib';
+import { log } from '@scullyio/scully';
 import { Observable, map, catchError } from 'rxjs';
-import { PokemonQueryData } from './types';
+import { InvestmentQueryData } from './types';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CmsService {
   baseUrl: string = 'http://localhost:8080';
-  cmsPokemon: Observable<PokemonQueryData>;
+  cmsNewtonPractice: Observable<InvestmentQueryData>;
   constructor(private http: HttpClient, private tss: TransferStateService) {
-    this.cmsPokemon = this.getPokemonGraphql();
+    this.cmsNewtonPractice = this.getInvestmentGraphql();
   }
 
-  public getPokemonGraphql = (): Observable<PokemonQueryData> => {
-    const pokemonQuery = `
-    query MyQuery {
-      component_pokemon {
-        items {
-          number_i
-          height_s
-          description_t
-          title_s
-          weight_s
-          image_s
-          type_o {
-            item {
-              value_smv
-            }
+  public getInvestmentGraphql = (): Observable<InvestmentQueryData> => {
+    const investmentQuery = `
+      query MyQuery {
+        component_investment {
+          items {
+            investmentImage_s
+            investmentName_t
           }
         }
       }
-    }
     `;
 
     return this.tss.useScullyTransferState(
       'pokemon',
-      this.queryGraphql({ query: pokemonQuery })
+      this.downloadImages(investmentQuery)
     );
   };
+
+  private downloadImages(query: string): Observable<InvestmentQueryData> {
+    const content = this.queryGraphql<InvestmentQueryData>({ query });
+    log("CMS SERVICE", content);
+    // scan content for image types
+    // save images in folder
+    // update content image type string
+    // return altered content and send to transferStateService
+
+    return content;
+  }
 
   private queryGraphql<T>(options: {
     query: string;
@@ -47,7 +50,7 @@ export class CmsService {
   }): Observable<T> {
     return this.http
       .post<{ data: T }>(
-        `${this.baseUrl}/api/1/site/graphql?crafterSite=pokemon-db`,
+        `${this.baseUrl}/api/1/site/graphql?crafterSite=newton-practice`,
         {
           query: options.query,
           variables: options.variables,

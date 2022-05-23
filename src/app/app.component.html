@@ -3,12 +3,10 @@
 
 <div>
   CMS data:
-  <div *ngFor="let p of pokemon | async">
+  <div *ngFor="let p of investment | async">
     <div class="card--media__content">
-      {{ p.title_s }}
-      <img class="cms-image" *ngIf="p.image_s" src="{{baseUrl}}{{ p.image_s }}"/> 
-      <span bp="float-right">#{{ p.number_i }}</span>
-      <strong>{{ p.description_t }}</strong>
+      {{ p.investmentName_t }}
+      <img class="cms-image" *ngIf="p.investmentImage_s" src="{{baseUrl}}{{ p.investmentImage_s }}"/>
     </div>
   </div>
 </div>
