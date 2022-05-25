@@ -4,11 +4,17 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build && npx scully -- && node ./scripts/cacheImages.js",
+    "build": "ng build && npm run scully -- --sb --RSD && node ./scripts/cacheImages.js",
+    "build:test": "npm run setupMockData && ng build --configuration test && npm run scully:test",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "scully": "npx scully --",
-    "scully:serve": "npx scully serve --"
+    "scully": "npx scully --scanRoutes",
+    "scully:test": "npm run scully -- --sb --configFile scully.scullycrafter.config.test.ts",
+    "scully:serve": "npx scully serve --",
+    "setupMockData": "node ./scripts/setupMockData.js",
+    "e2e": "ng e2e",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
   },
   "private": true,
   "dependencies": {
@@ -34,6 +40,7 @@
     "@angular-devkit/build-angular": "~13.3.1",
     "@angular/cli": "~13.3.1",
     "@angular/compiler-cli": "~13.3.0",
+    "@cypress/schematic": "^1.7.0",
     "@types/jasmine": "~3.10.0",
     "@types/node": "^12.11.1",
     "jasmine-core": "~4.0.0",
@@ -42,6 +49,7 @@
     "karma-coverage": "~2.1.0",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
-    "typescript": "~4.6.2"
+    "typescript": "~4.6.2",
+    "cypress": "latest"
   }
 }

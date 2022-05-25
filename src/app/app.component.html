@@ -1,12 +1,2 @@
 <span>{{ title }} app is running!</span>
-
-
-<div>
-  CMS data:
-  <div *ngFor="let p of investment | async">
-    <div class="card--media__content">
-      {{ p.investmentName_t }}
-      <img class="cms-image" *ngIf="p.investmentImage_s" src="{{ p.investmentImage_s }}"/>
-    </div>
-  </div>
-</div>
+<router-outlet></router-outlet>

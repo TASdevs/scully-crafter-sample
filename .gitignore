@@ -47,3 +47,7 @@ scullyStats.json
 /scully/**/*.js
 /scully/**/*.js.map
 /scully/**/*.d.ts
+
+# Cypress ignore
+cypress/screenshots
+cypress/videos

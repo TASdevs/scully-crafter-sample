@@ -4,6 +4,7 @@ const { getRequest } = require('./http/request');
 
 const outDir = `${__dirname}/../dist/static`;
 const assetsDir = `${outDir}/static-assets`;
+const routesFile = `${outDir}/assets/scully-routes.json`;
 const crafterBaseUrl = 'http://localhost:8080';
 
 fs.mkdirSync(assetsDir, { recursive: true });
@@ -11,9 +12,16 @@ fs.mkdirSync(assetsDir, { recursive: true });
 const downloadedImages = [];
 
 const cacheImages = () => {
-    const data = fs.readFileSync(`${outDir}/data.json`).toString('utf8');
-    const jsonData = JSON.parse(data);
-    handleData(jsonData);
+    const routes = fs.readFileSync(routesFile).toString('utf8');
+    JSON.parse(routes).forEach(route => {
+        const dataFile = path.join(outDir, route.route, 'data.json');
+        if (!fs.existsSync(dataFile)) {
+            return;
+        }
+        const data = fs.readFileSync(dataFile).toString('utf8');
+        const jsonData = JSON.parse(data);
+        handleData(jsonData);
+    })
 };
 
 const handleData = (data) => {

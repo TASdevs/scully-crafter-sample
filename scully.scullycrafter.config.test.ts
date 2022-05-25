@@ -8,5 +8,5 @@ export const config: ScullyConfig = {
   spsModulePath: 'YOUR OWN MODULE PATH HERE',
   outDir: './dist/static',
   routes: {},
-  inlineStateOnly: false
+  inlineStateOnly: true
 };

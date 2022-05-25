@@ -1,34 +1,27 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {TransferStateService} from '@scullyio/ng-lib';
-import {catchError, map, Observable} from 'rxjs';
-import {InvestmentQueryData} from './types';
+import {catchError, map, Observable, of, switchMap} from 'rxjs';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CmsService {
+export class CmsService<T> {
   baseUrl: string = 'http://localhost:8080';
-  cmsNewtonPractice: Observable<InvestmentQueryData>;
-  constructor(private http: HttpClient, private tss: TransferStateService) {
-    this.cmsNewtonPractice = this.getInvestmentGraphql();
-  }
 
-  public getInvestmentGraphql = (): Observable<InvestmentQueryData> => {
-    const investmentQuery = `
-      query MyQuery {
-        component_investment {
-          items {
-            investmentImage_s
-            investmentName_t
-          }
-        }
-      }
-    `;
+  constructor(private httpClient: HttpClient, private tss: TransferStateService) { }
 
+  public getCmsData = (graphQlQuery: string, name: string): Observable<T> => {
     return this.tss.useScullyTransferState(
-      'pokemon',
-      this.queryGraphql<InvestmentQueryData>({query: investmentQuery})
+      name,
+      (environment.environment === 'test') ?
+        this.httpClient.get<T>('http://localhost:1668/data.json').pipe(switchMap((data: any) => {
+          console.log(data);
+          return of(data[name])
+        }))
+        :
+        this.queryGraphql<T>({query: graphQlQuery})
     );
   };
 
@@ -36,7 +29,7 @@ export class CmsService {
     query: string;
     variables?: { [key: string]: any };
   }): Observable<T> {
-    return this.http
+    return this.httpClient
       .post<{ data: T }>(
         `${this.baseUrl}/api/1/site/graphql?crafterSite=newton-practice`,
         {
