@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {map, Observable} from 'rxjs';
-import {InvestmentPageQueryData, InvestmentQueryItem} from '../types';
 import {CmsService} from '../cms.service';
+import {InvestmentPageQueryData, InvestmentQueryItem} from '../../types/investmentPage';
 
 const investmentQuery = `
   query MyQuery {

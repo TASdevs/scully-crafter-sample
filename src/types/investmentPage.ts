@@ -12,6 +12,3 @@ export type Hero = {
   heroImage_s: string;
 }
 
-export type HelpPageQueryData = {
-  component_helpPageHero: { items: Hero[] };
-}

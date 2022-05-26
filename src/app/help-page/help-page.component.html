@@ -1,11 +1,13 @@
 <h1>help-page works!</h1>
 
 <div>
-    <div *ngIf="hero">
+    <div *ngFor="let mappedQuestionSet of mappedQuestionSets">
         <div class="card--media__content">
-            <h2>{{ hero.heading_t }}</h2>
-            <p *ngIf="hero.subheading_t">{{ hero.subheading_t }}</p>
-            <img class="cms-image" *ngIf="hero.heroImage_s" src="{{ hero.heroImage_s }}"/>
+            <h2>{{ mappedQuestionSet.heading }}</h2>
+            <div *ngFor="let question of mappedQuestionSet.questions">
+                <p>{{question.question}}</p>
+                <p>{{question.answer}}</p>
+            </div>
         </div>
     </div>
 </div>
