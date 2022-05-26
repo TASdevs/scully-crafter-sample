@@ -26,9 +26,3 @@ export type QuestionAnswerItem = {
   }
 }
 
-export type HelpPageQuestionSet = {
-  component_helpPageQuestionSet: {
-    items: [QuestionSet]
-  }
-}
-

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {CmsService} from '../cms.service';
 import {map} from 'rxjs';
-import {HelpPageData, QuestionSets} from '../../types/helpPageQuestionSet';
+import {HelpPageData, QuestionSets} from '../../types/helpPageData';
 
 const helpPageGraphQlQuery = `
 query MyQuery {

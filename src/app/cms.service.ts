@@ -17,7 +17,6 @@ export class CmsService<T> {
       name,
       (environment.environment === 'test') ?
         this.httpClient.get<T>('http://localhost:1668/data.json').pipe(switchMap((data: any) => {
-          console.log(data);
           return of(data[name])
         }))
         :
